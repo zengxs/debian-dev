@@ -6,7 +6,7 @@ This is a robust Debian-based development environment designed to behave like a 
 
 - **Systemd Enabled:** Manage services using `systemctl` just like a real VM.
 - **Pre-configured SSH:** Ready for remote development with VS Code or terminal.
-- **Dev-ready Toolchain:** Optimized for modern workflows (Zsh, Git, etc.).
+- **Dev-ready Toolchain:** Optimized for modern workflows (Fish shell, Vim, Git, Curl, and more).
 
 ## Usage
 
@@ -37,8 +37,8 @@ Default credentials are `devuser:devuser`.
 ## Customization
 
 To add your own tools, simply append them to the `apt-get install` list in the Dockerfile.
-The default shell is `zsh`. If you need to persist your Zsh configurations, remember to
-mount a volume for `/home/devuser`.
+The default shell is `fish`. If you need to persist your shell configurations, remember
+to mount a volume for `/home/devuser`.
 
 ## License
 
