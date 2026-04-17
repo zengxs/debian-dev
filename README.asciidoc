@@ -1,0 +1,81 @@
+= Debian Dev Box
+:toc: macro
+:toc-title: Table of Contents
+
+A systemd-enabled Debian development environment tailored for Docker on macOS. Optimized for a seamless transition between local and containerized workflows.
+
+TIP: For the best experience, I recommend using **VS Code Remote - SSH**.
+
+== Features
+
+* **Systemd support**: Run services as if you were on a real VM.
+* **OpenSSH Server**: Pre-configured for easy access.
+* **macOS Optimized**: Designed to work flawlessly with OrbStack or Docker Desktop.
+
+== Getting Started
+
+=== 1. Build the Image
+
+[source,bash]
+----
+docker build -t debian-dev:latest .
+----
+
+=== 2. Create Persistent Volume
+
+Keep your home directory data even if the container is removed:
+
+[source,bash]
+----
+docker volume create devuser-home
+----
+
+=== 3. Launch and Connect
+
+==== Option A: Using OrbStack (Recommended)
+OrbStack provides automatic local domain naming, making connection effortless.
+
+[source,bash]
+----
+docker run -d \
+    --name debian \
+    --privileged \
+    --cgroupns host \
+    --tmpfs /run \
+    --tmpfs /run/lock \
+    -v devuser-home:/home/devuser \
+    -v /Volumes/Projects:/Volumes/Projects \
+    debian-dev:latest
+
+ssh devuser@debian.orb.local
+----
+
+==== Option B: Standard Docker (Port Forwarding)
+Use this if you are using Docker Desktop or need manual port mapping.
+
+[source,bash]
+----
+docker run -d \
+    --name debian \
+    --privileged \
+    --cgroupns host \
+    --tmpfs /run \
+    --tmpfs /run/lock \
+    -v devuser-home:/home/devuser \
+    -v /Volumes/Projects:/Volumes/Projects \
+    -p 2222:22 \
+    debian-dev:latest
+
+ssh devuser@localhost -p 2222
+----
+
+[IMPORTANT]
+====
+**Default Credentials** +
+*Username:* `devuser` +
+*Password:* `devuser`
+====
+
+== License
+
+This project is licensed under the link:./LICENSE[MIT License].

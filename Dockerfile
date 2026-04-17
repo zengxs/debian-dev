@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM debian:trixie
 
 LABEL maintainer="Charlie Tseng"
 
@@ -14,19 +14,24 @@ RUN apt-get update \
         dbus \
         sudo \
         zsh \
-        fish \
-        ripgrep \
+        locales-all \
+        file \
         openssh-server \
         vim \
         curl \
         wget \
         git \
-        openssl \
+        ca-certificates \
+        lsof \
+        telnet \
+        iputils-ping \
+        traceroute \
+        mtr \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd -m -s /bin/fish -u $USER_UID -g $USER_GID -G sudo $USERNAME \
+    && useradd -m -s /bin/zsh -u $USER_UID -g $USER_GID -G sudo $USERNAME \
     && echo "$USERNAME:$USERNAME" | chpasswd \
     && echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
